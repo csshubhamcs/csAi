@@ -1,0 +1,4 @@
+[
+  {"description": "if service is A0021 then deny the line", "code": "if service is \"A0021\" then deny"},
+  {"description": "if cost exceeds 500 then approve", "code": "if cost > 500 then approve"}
+]
