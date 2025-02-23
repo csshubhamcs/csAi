@@ -35,13 +35,11 @@ public class ChatController {
             log.warn("Invalid request: message is empty");
             return Flux.error(new IllegalArgumentException("Message must not be empty"));
         }
-        log.info("Chat request: expertType={}, message={}, provider={}", expertType, message, provider);
-
 
         String effectiveExpertType = StringUtils.hasText(expertType) ? expertType.toLowerCase() : DEFAULT_EXPERT;
         String effectiveProvider = determineProvider(provider);
 
-        log.debug("Chat request: expertType={}, message={}, provider={}", effectiveExpertType, message, effectiveProvider);
+        log.info("Processing chat request: expertType={}, message={}, provider={}", effectiveExpertType, message, effectiveProvider);
         return switch (effectiveExpertType) {
             case "dsl" -> chatService.getDslCode(effectiveProvider, message);
             case "healthcare" -> chatService.getHealthCareAnswer(effectiveProvider, message);
@@ -57,6 +55,8 @@ public class ChatController {
         if (StringUtils.hasText(providedProvider)) {
             return providedProvider.toLowerCase();
         }
-        return StringUtils.hasText(openAiApiKey) ? OPENAI_PROVIDER : DEFAULT_PROVIDER;
+        String selectedProvider = StringUtils.hasText(openAiApiKey) ? OPENAI_PROVIDER : DEFAULT_PROVIDER;
+        log.debug("Determined provider: {}", selectedProvider);
+        return selectedProvider;
     }
 }

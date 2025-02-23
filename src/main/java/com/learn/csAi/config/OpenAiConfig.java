@@ -6,6 +6,7 @@ import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -15,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.function.Consumer;
 
 @Configuration
+@ConditionalOnProperty(name = "spring.ai.openai.api-key", matchIfMissing = false)
 public class OpenAiConfig {
 
     private final OpenAiChatModel openAiChatModel;
@@ -25,15 +27,15 @@ public class OpenAiConfig {
     }
 
     @Bean("customOpenAiChatClientBuilder")
-    public ChatClient.Builder openAiChatClientBuilder() {
+    public ChatClient.Builder openAiChatClientBuilder(@Qualifier("chatMemory") ChatMemory chatMemory) {
         return ChatClient.builder(openAiChatModel)
-                .defaultAdvisors(new MessageChatMemoryAdvisor(chatMemory()));
+                .defaultAdvisors(new MessageChatMemoryAdvisor(chatMemory));
     }
 
     @Bean("customOpenAiChatClient")
-    public ChatClient openAiChatClient() {
+    public ChatClient openAiChatClient(@Qualifier("chatMemory") ChatMemory chatMemory) {
         return ChatClient.builder(openAiChatModel)
-                .defaultAdvisors(new MessageChatMemoryAdvisor(chatMemory()))
+                .defaultAdvisors(new MessageChatMemoryAdvisor(chatMemory))
                 .defaultSystem("You are a helpful AI Assistant.")
                 .build();
     }

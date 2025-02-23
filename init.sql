@@ -6,6 +6,6 @@ CREATE TABLE IF NOT EXISTS public.vector_store (
     id UUID PRIMARY KEY,
     content TEXT,
     metadata JSONB,
-    embedding VECTOR(1024)
---    // 1536 for Open Ai
+    embedding VECTOR(1536)
+--    // 1536 for Open Ai and for ollama 1024
 );
