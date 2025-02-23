@@ -28,10 +28,10 @@ ext {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
+//	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
-	implementation 'org.springframework.ai:spring-ai-mongodb-atlas-store-spring-boot-starter'
+//	implementation 'org.springframework.ai:spring-ai-mongodb-atlas-store-spring-boot-starter'
 	implementation 'org.springframework.ai:spring-ai-openai-spring-boot-starter'
 	implementation 'org.springframework.ai:spring-ai-ollama-spring-boot-starter'
 	implementation 'org.springframework.ai:spring-ai-pdf-document-reader'
@@ -39,7 +39,11 @@ dependencies {
 
 	implementation 'org.apache.pdfbox:pdfbox:2.0.29'
 	implementation 'org.springframework.boot:spring-boot-starter-cache'
-	implementation "org.springframework.ai:spring-ai-mongodb-atlas-store:${springAiVersion}"
+//	implementation "org.springframework.ai:spring-ai-mongodb-atlas-store:${springAiVersion}"
+
+	implementation "org.springframework.ai:spring-ai-pgvector-store:${springAiVersion}"
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.postgresql:postgresql:42.7.4'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'

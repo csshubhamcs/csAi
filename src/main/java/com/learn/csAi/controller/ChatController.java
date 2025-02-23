@@ -35,6 +35,8 @@ public class ChatController {
             log.warn("Invalid request: message is empty");
             return Flux.error(new IllegalArgumentException("Message must not be empty"));
         }
+        log.info("Chat request: expertType={}, message={}, provider={}", expertType, message, provider);
+
 
         String effectiveExpertType = StringUtils.hasText(expertType) ? expertType.toLowerCase() : DEFAULT_EXPERT;
         String effectiveProvider = determineProvider(provider);

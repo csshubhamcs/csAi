@@ -15,25 +15,22 @@ import org.springframework.context.annotation.Configuration;
 import java.util.function.Consumer;
 
 @Configuration
-//@AutoConfiguration
-//@AutoConfigureBefore(name = "org.springframework.ai.openai.OpenAiAutoConfiguration") // Ensure custom config takes precedence
-//@ConditionalOnProperty(prefix = "spring.ai.openai", name = "api-key") // Only if API key is provided
 public class OpenAiConfig {
 
     private final OpenAiChatModel openAiChatModel;
 
     @Autowired
     public OpenAiConfig(OpenAiChatModel openAiChatModel) {
-        this.openAiChatModel = openAiChatModel; // Auto-configured by Spring AI
+        this.openAiChatModel = openAiChatModel;
     }
 
-    @Bean("customOpenAiChatClientBuilder") // Unique name
+    @Bean("customOpenAiChatClientBuilder")
     public ChatClient.Builder openAiChatClientBuilder() {
         return ChatClient.builder(openAiChatModel)
                 .defaultAdvisors(new MessageChatMemoryAdvisor(chatMemory()));
     }
 
-    @Bean("customOpenAiChatClient") // Unique name
+    @Bean("customOpenAiChatClient")
     public ChatClient openAiChatClient() {
         return ChatClient.builder(openAiChatModel)
                 .defaultAdvisors(new MessageChatMemoryAdvisor(chatMemory()))
