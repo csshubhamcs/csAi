@@ -14,24 +14,25 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnProperty(name = "spring.ai.ollama.base-url")
 public class OllamaConfig {
 
-    private final OllamaChatModel ollamaChatModel;
+  private final OllamaChatModel ollamaChatModel;
 
-    @Autowired
-    public OllamaConfig(OllamaChatModel ollamaChatModel) {
-        this.ollamaChatModel = ollamaChatModel;
-    }
+  @Autowired
+  public OllamaConfig(OllamaChatModel ollamaChatModel) {
+    this.ollamaChatModel = ollamaChatModel;
+  }
 
-    @Bean("customOllamaChatClientBuilder")
-    public ChatClient.Builder ollamaChatClientBuilder(@Qualifier("chatMemory") ChatMemory chatMemory) {
-        return ChatClient.builder(ollamaChatModel)
-                .defaultAdvisors(new MessageChatMemoryAdvisor(chatMemory));
-    }
+  @Bean("customOllamaChatClientBuilder")
+  public ChatClient.Builder ollamaChatClientBuilder(
+      @Qualifier("chatMemory") ChatMemory chatMemory) {
+    return ChatClient.builder(ollamaChatModel)
+        .defaultAdvisors(new MessageChatMemoryAdvisor(chatMemory));
+  }
 
-    @Bean("customOllamaChatClient")
-    public ChatClient ollamaChatClient(@Qualifier("chatMemory") ChatMemory chatMemory) {
-        return ChatClient.builder(ollamaChatModel)
-                .defaultAdvisors(new MessageChatMemoryAdvisor(chatMemory))
-                .defaultSystem("You are a helpful AI Assistant.")
-                .build();
-    }
+  @Bean("customOllamaChatClient")
+  public ChatClient ollamaChatClient(@Qualifier("chatMemory") ChatMemory chatMemory) {
+    return ChatClient.builder(ollamaChatModel)
+        .defaultAdvisors(new MessageChatMemoryAdvisor(chatMemory))
+        .defaultSystem("You are a helpful AI Assistant.")
+        .build();
+  }
 }
