@@ -4,6 +4,7 @@ import com.learn.csAi.service.ChatService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -27,7 +28,8 @@ public class ChatController {
         this.openAiApiKey = openAiApiKey;
     }
 
-    @GetMapping({"/chat", "/chat/{expertType}"})
+//    , produces = MediaType.TEXT_EVENT_STREAM_VALUE
+    @GetMapping(value = {"/chat", "/chat/{expertType}"})
     public Flux<String> chat(@PathVariable(required = false) String expertType,
                              @RequestParam String message,
                              @RequestParam(required = false) String provider) {
